@@ -8,27 +8,14 @@ import flaskoski.faire.model.Product;
 
 import javax.ws.rs.client.WebTarget;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ProductApiReader implements ApiReader{
-
-    @Override
-    public void setApiKeyHeader(String apiKeyHeader) {
-        this.apiKeyHeader = apiKeyHeader;
-    }
-
-    private String apiKeyHeader;
+public class ProductApiReader extends AbstractApiReader {
 
     public ProductApiReader(String apiKeyHeader){
-        this.apiKeyHeader = apiKeyHeader;
-    }
-
-    @Override
-    public String getApiKeyHeader() {
-        return this.apiKeyHeader;
+        super(apiKeyHeader);
     }
 
     public List<Product> getItemsByBrand(String brandId) {
@@ -43,7 +30,7 @@ public class ProductApiReader implements ApiReader{
             target.queryParam("page", page++);
             //target.queryParam("limit", limit);
             String content = target.path("/api/v1/products").request()
-                    .header(headerId, this.apiKeyHeader)
+                    .header(headerId, apiKeyHeader)
                     .get(String.class);
 
             productsOfPage = getProducts(content);

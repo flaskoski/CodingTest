@@ -1,12 +1,7 @@
 package flaskoski.faire;
 
+import flaskoski.faire.DAO.OrderItemDAO;
 import flaskoski.faire.model.Order;
-import flaskoski.faire.model.OrderItem;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import java.util.List;
 
 public class OrderReceiver {
     public static final String dbSchema = "fairedb";

@@ -1,4 +1,4 @@
-package flaskoski.faire;
+package flaskoski.faire.DAO;
 
 
 import flaskoski.faire.model.Option;
@@ -6,8 +6,6 @@ import flaskoski.faire.model.OrderItem;
 import flaskoski.faire.util.JPAUtil;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.persistence.Query;
 import java.util.Arrays;
 import java.util.List;

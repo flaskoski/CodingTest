@@ -1,4 +1,4 @@
-package flaskoski.faire;
+package flaskoski.faire.DAO;
 
 import flaskoski.faire.model.Order;
 

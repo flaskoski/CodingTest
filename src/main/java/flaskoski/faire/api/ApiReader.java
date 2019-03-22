@@ -1,6 +1,5 @@
 package flaskoski.faire.api;
 
-import flaskoski.faire.model.Product;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -13,7 +12,7 @@ public interface ApiReader {
 
     String getApiKeyHeader();
     void setApiKeyHeader(String key);
-    public List<Product> getAllItems();
+    public List getAllItems();
 
     static WebTarget getTarget(){
         Client client = ClientBuilder.newClient();
