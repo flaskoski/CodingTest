@@ -1,5 +1,6 @@
 package flaskoski.faire.model;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.List;
@@ -8,6 +9,22 @@ import java.util.List;
 public class Product {
 
     @Id
+    String id;
+    String brand_id;
+    String short_description;
+    String description;
+    Integer wholesale_price_cents;
+    Integer retail_price_cents;
+    Boolean active;
+    String name;
+    Integer unit_multiplier;
+
+    @ElementCollection
+    List<Option> options;
+
+    String created_at;
+    String updated_at;
+
     public String getId() {
         return id;
     }
@@ -106,16 +123,4 @@ public class Product {
 
     public Product(){}
 
-    String id;
-    String brand_id;
-    String short_description;
-    String description;
-    Integer wholesale_price_cents;
-    Integer retail_price_cents;
-    Boolean active;
-    String name;
-    Integer unit_multiplier;
-    List<Option> options;
-    String created_at;
-    String updated_at;
 }

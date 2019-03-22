@@ -1,21 +1,29 @@
 package flaskoski.faire.model;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 import java.util.List;
 
-@Entity
+@Entity(name = "Order_table")
 public class Order {
 
     public Order(){}
-
+    @Id
     String id;
     String ID;
+
     String state;
     String ship_after;
+
+    @ElementCollection
     List<OrderItem> items;
+    @ElementCollection
     List<Shipment> shipments;
+
+    @Embedded
+    @AttributeOverride(name = "state", column = @Column(name = "state_of_residence"))
     Address address;
     String created_at;
+    String updated_at;
 
     public String getId() {
         return id;
@@ -33,13 +41,13 @@ public class Order {
         this.ID = ID;
     }
 
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
+//    public String getState() {
+//        return state;
+//    }
+//
+//    public void setState(String state) {
+//        this.state = state;
+//    }
 
     public String getShip_after() {
         return ship_after;
@@ -88,6 +96,4 @@ public class Order {
     public void setUpdated_at(String updated_at) {
         this.updated_at = updated_at;
     }
-
-    String updated_at;
 }

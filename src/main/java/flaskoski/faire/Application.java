@@ -4,9 +4,14 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
+import flaskoski.faire.model.Address;
 import flaskoski.faire.model.Order;
 import flaskoski.faire.model.Product;
+import flaskoski.faire.model.Shipment;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
@@ -22,6 +27,23 @@ public class Application {
         catch (Exception e){
             e.printStackTrace();
         }
+
+        EntityManagerFactory emf =  Persistence.createEntityManagerFactory("fairedb");
+        EntityManager em = emf.createEntityManager();
+
+
+
+
+        Shipment shipment = new Shipment();
+        shipment.setCarrier("asasa");
+        shipment.setId("assss");
+
+        em.getTransaction().begin();
+        em.persist(shipment);
+        em.getTransaction().commit();
+
+        em.close();
+        emf.close();
 
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target("https://www.faire-stage.com");

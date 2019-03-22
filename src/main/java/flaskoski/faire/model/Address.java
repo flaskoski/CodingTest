@@ -1,8 +1,8 @@
 package flaskoski.faire.model;
 
-import javax.persistence.Entity;
+import javax.persistence.Embeddable;
 
-@Entity
+@Embeddable
 public class Address {
     public Address(){}
 
