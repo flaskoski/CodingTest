@@ -43,7 +43,7 @@ public class Application {
 
         Gson gson = new Gson();
         List<Product> productList = gson.fromJson(jsonObject.get("products"), new TypeToken<List<Product>>() {}.getType());
-        db.addAll(productList);
+        //db.addAll(productList);
         for(Product product : productList){
             System.out.println(product.getBrand_id());
         }
@@ -54,10 +54,12 @@ public class Application {
 
         JsonObject ordersJsonObject = new JsonParser().parse(ordersString).getAsJsonObject();
 
+        OrderReceiver receiver = new OrderReceiver();
+
         List<Order> orderList = gson.fromJson(ordersJsonObject.get("orders"), new TypeToken<List<Order>>() {}.getType());
-        db.addAll(orderList);
         for(Order order : orderList){
             System.out.println(order.getAddress().getCity());
+            receiver.processOrder(order);
         }
     }
 }
