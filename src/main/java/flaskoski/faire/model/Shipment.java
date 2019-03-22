@@ -3,10 +3,10 @@ package flaskoski.faire.model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-//@Entity
+@Entity
 public class Shipment {
     
-   // @Id
+    @Id
     String id;
     String order_id;
     Integer maker_cost_cents;

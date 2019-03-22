@@ -1,13 +1,16 @@
 package flaskoski.faire.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-//@Entity
+@Entity
 public class OrderItem {
 
-  //  @Id
+    @Id
+    @Column
     String id;
+
     String order_id;
     String product_id;
     String product_option_id;

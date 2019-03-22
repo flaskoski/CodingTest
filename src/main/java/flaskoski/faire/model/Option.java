@@ -18,8 +18,6 @@ public class Option {
     LocalDateTime backordered_until;
     String created_at;
 
-
-
     public Option(){}
 
     public String getId() {
