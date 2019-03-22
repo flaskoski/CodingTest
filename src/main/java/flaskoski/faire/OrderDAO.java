@@ -2,5 +2,17 @@ package flaskoski.faire;
 
 import flaskoski.faire.model.Order;
 
-public class OrderDAO {
+
+public class OrderDAO{
+
+
+//    @Override
+//    public <Order> void add(Order item) {
+//
+//    }
+//
+//    @Override
+//    public <Order> void get(Order item) {
+//
+//    }
 }

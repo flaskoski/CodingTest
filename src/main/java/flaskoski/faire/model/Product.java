@@ -1,8 +1,6 @@
 package flaskoski.faire.model;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -12,6 +10,7 @@ public class Product {
     String id;
     String brand_id;
     String short_description;
+    @Lob
     String description;
     Integer wholesale_price_cents;
     Integer retail_price_cents;
@@ -19,7 +18,7 @@ public class Product {
     String name;
     Integer unit_multiplier;
 
-    @ElementCollection
+    @OneToMany(cascade = CascadeType.PERSIST)
     List<Option> options;
 
     String created_at;

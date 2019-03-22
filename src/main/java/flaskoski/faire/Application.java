@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
-import flaskoski.faire.model.Address;
 import flaskoski.faire.model.Order;
 import flaskoski.faire.model.Product;
 import flaskoski.faire.model.Shipment;
@@ -15,35 +14,24 @@ import javax.persistence.Persistence;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
+import java.io.File;
 import java.util.List;
 
 public class Application {
 
     public static void main(String args[]){
         String apiKeyHeader = "";
+        String dbSchema = "fairedb";
         try{
             apiKeyHeader = args[0];
+
         }
         catch (Exception e){
             e.printStackTrace();
         }
 
-        EntityManagerFactory emf =  Persistence.createEntityManagerFactory("fairedb");
-        EntityManager em = emf.createEntityManager();
+        ItemDAO db = new ItemDAO();
 
-
-
-
-        Shipment shipment = new Shipment();
-        shipment.setCarrier("asasa");
-        shipment.setId("assss");
-
-        em.getTransaction().begin();
-        em.persist(shipment);
-        em.getTransaction().commit();
-
-        em.close();
-        emf.close();
 
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target("https://www.faire-stage.com");
@@ -57,6 +45,7 @@ public class Application {
         List<Product> productList = gson.fromJson(jsonObject.get("products"), new TypeToken<List<Product>>() {}.getType());
         for(Product product : productList){
             System.out.println(product.getBrand_id());
+            db.add(product);
         }
 
         String ordersString = target.path("/api/v1/orders").request()

@@ -3,24 +3,24 @@ package flaskoski.faire.model;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity(name = "Order_table")
+//@Entity(name = "Order_table")
 public class Order {
 
     public Order(){}
-    @Id
+  //  @Id
     String id;
     String ID;
 
     String state;
     String ship_after;
 
-    @ElementCollection
+   // @ElementCollection
     List<OrderItem> items;
-    @ElementCollection
+   // @ElementCollection
     List<Shipment> shipments;
 
-    @Embedded
-    @AttributeOverride(name = "state", column = @Column(name = "state_of_residence"))
+   // @Embedded
+  //  @AttributeOverride(name = "state", column = @Column(name = "state_of_residence"))
     Address address;
     String created_at;
     String updated_at;

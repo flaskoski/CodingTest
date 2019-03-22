@@ -2,7 +2,7 @@ package flaskoski.faire.model;
 
 import javax.persistence.Embeddable;
 
-@Embeddable
+//@Embeddable
 public class Address {
     public Address(){}
 
