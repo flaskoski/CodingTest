@@ -1,15 +1,20 @@
 package flaskoski.faire.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Shipment {
-
-    Shipment(){}
-
+    
+    @Id
     String id;
     String order_id;
     Integer maker_cost_cents;
     String carrier;
     String tracking_code;
     String created_at;
+
+    public Shipment(){}
 
     public String getId() {
         return id;

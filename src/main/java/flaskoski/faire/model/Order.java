@@ -1,7 +1,9 @@
 package flaskoski.faire.model;
 
+import javax.persistence.Entity;
 import java.util.List;
 
+@Entity
 public class Order {
 
     public Order(){}

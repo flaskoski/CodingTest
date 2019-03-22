@@ -1,7 +1,28 @@
 package flaskoski.faire.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class OrderItem {
+
+    @Id
+    String id;
+    String order_id;
+    String product_id;
+    String product_option_id;
+    Integer quantity;
+    String sku;
+    Integer price_cents;
+    String product_name;
+    String product_option_name;
+    String includes_tester;
+    String tester_price_cents;
+    String created_at;
+    String updated_at;
+
     public OrderItem(){}
+
     public String getId() {
         return id;
     }
@@ -105,18 +126,4 @@ public class OrderItem {
     public void setUpdated_at(String updated_at) {
         this.updated_at = updated_at;
     }
-
-    String id;
-    String order_id;
-    String product_id;
-    String product_option_id;
-    Integer quantity;
-    String sku;
-    Integer price_cents;
-    String product_name;
-    String product_option_name;
-    String includes_tester;
-    String tester_price_cents;
-    String created_at;
-    String updated_at;
 }

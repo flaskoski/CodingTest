@@ -37,6 +37,15 @@ public class Application {
             System.out.println(product.getBrand_id());
         }
 
-        List<Order> orderList;
+        String ordersString = target.path("/api/v1/orders").request()
+                .header("X-FAIRE-ACCESS-TOKEN", apiKeyHeader)
+                .get(String.class);
+
+        JsonObject ordersJsonObject = new JsonParser().parse(ordersString).getAsJsonObject();
+
+        List<Order> orderList = gson.fromJson(ordersJsonObject.get("orders"), new TypeToken<List<Order>>() {}.getType());
+        for(Order order : orderList){
+            System.out.println(order.getAddress().getCity());
+        }
     }
 }

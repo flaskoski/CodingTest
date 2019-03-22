@@ -1,9 +1,13 @@
 package flaskoski.faire.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.time.LocalDateTime;
 
+@Entity
 public class Option {
 
+    @Id
     String id;
     String product_id;
     Boolean active;
