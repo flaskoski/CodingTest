@@ -11,6 +11,10 @@ import java.util.List;
 @Entity(name = "Order_table")
 public class Order {
 
+    public static int PROCESSED = 1;
+    public static int ITEM_NOT_AVAILABLE = 2;
+    public static int INVALID_ORDER_STATE = 3;
+
     public Order(){}
     @Id
     private String id;
@@ -103,16 +107,17 @@ public class Order {
         this.updated_at = updated_at;
     }
 
-    public boolean processOrder(OptionApiComms dbOptions, OrderApiComms dbOrders){
+    public Integer processOrder(OptionApiComms dbOptions, OrderApiComms dbOrders){
         if(state.equals(OrderState.NEW))
             if(dbOptions.checkIfItemsAvailable(this.getItems()))
             {
                 dbOptions.processOptions(this.getItems(), new UpdateOptionProcess());
                 dbOrders.process(this);
-                return true;
+                return Order.PROCESSED;
             }
+            else return Order.ITEM_NOT_AVAILABLE;
         dbOptions.processOptions(this.getItems(), new UpdateOptionDontProcess());
-        return false;
+        return Order.INVALID_ORDER_STATE;
     }
 
     @Override

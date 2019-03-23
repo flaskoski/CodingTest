@@ -1,5 +1,6 @@
 package flaskoski.faire.metrics;
 
+import flaskoski.faire.model.Option;
 import flaskoski.faire.model.Order;
 
 import java.util.Map;
@@ -13,5 +14,9 @@ public class OrderMetrics {
 
     public Map.Entry<Order, Integer> checkOrdethatHas(int resultStrategy, OrderMetric orderMetric) {
         return orderMetric.process(resultStrategy, orderMap);
+    }
+
+    public Map.Entry<Option, Integer> checkOptionThatHas(OrderOptionMetric orderOptionMetric) {
+        return orderOptionMetric.process(orderMap);
     }
 }

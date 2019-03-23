@@ -1,10 +1,7 @@
 package flaskoski.faire;
 
 import flaskoski.faire.apicommunication.*;
-import flaskoski.faire.metrics.OrderCostMetric;
-import flaskoski.faire.metrics.OrderMetric;
-import flaskoski.faire.metrics.OrderMetrics;
-import flaskoski.faire.metrics.OrderStateMetric;
+import flaskoski.faire.metrics.*;
 import flaskoski.faire.model.*;
 
 import java.net.HttpURLConnection;
@@ -51,68 +48,47 @@ public class Application {
         //------------------------------------------------------------------------------------------------
         //------4. accepting the order if there is inventory to fulfill the order otherwise it marks the items that don’t have enough inventory as backordered
         //Update the inventory levels of product options as each order is moved to processing
-        for(Order order : orderList.values()){
-            Boolean processed = order.processOrder(optionApiComms, new OrderApiComms(apiKeyHeader));
-            if(processed)
+        for(Order order : orderList.values()) {
+            int processed = order.processOrder(optionApiComms, new OrderApiComms(apiKeyHeader));
+            if (processed == Order.PROCESSED){
                 processedOrders.add(order);
-            System.out.println(String.format("order %s processed? %s", order.getId(), processed.toString()));
+                System.out.println(String.format("order \"%s\" processed.", order.getId()));
+            }
+            else
+                System.out.println(String.format("order \"%s\" not processed because %s",
+                        order.getId(),
+                        (processed==1? "item not available": "order state is not \"NEW\"")));
         }
 
 
         //------------------------------------------------------------------------------------------------
-        //-----METRICS------------------------------------------------------------------------------------
+        //-----5. METRICS------------------------------------------------------------------------------------
 
-        //For checking the best selling product
-        List<Option> optionsSold = new ArrayList<>();
-
-        //For checking the most valuable order
-        Order mostValuableOrder = null;
-        Integer mostValuableOrderValue =-1, orderValue=0;
-
-        //For checking the state which is the most common in all orders
+        //a. Check the best selling product
         OrderMetrics orderMetrics = new OrderMetrics(orderList);
+
+        Map.Entry<Option, Integer> bestSellingOption = orderMetrics.checkOptionThatHas(new OrderBestSellingProductMetric());
+        if(bestSellingOption != null)
+            System.out.println("There were "+ processedOrders.size()
+                    +" orders processed.\nThe most selling product is "
+                    + bestSellingOption.getKey().getId()+" with "+ bestSellingOption.getValue() + " items.");
+
+
+        //b. Check the most valuable order
+        Map.Entry<Order, Integer> mostValuableOrder = orderMetrics.checkOrdethatHas(OrderMetric.HIGHEST, new OrderCostMetric());
+        if(mostValuableOrder != null)
+            System.out.println("The most common state is: "+ mostValuableOrder.getKey().getId() +" with "+ mostValuableOrder.getValue()/100.0 +  " dollars.");
+
+        //c. Check the most common order state
         Map.Entry<Order, Integer> orderStateMostCommom = orderMetrics.checkOrdethatHas(OrderMetric.HIGHEST, new OrderStateMetric());
         if(orderStateMostCommom != null)
             System.out.println("The most commom order state is: "+ orderStateMostCommom.getKey().getState() +" with "+ orderStateMostCommom.getValue() +  " occurencies");
 
-        for(Order order : processedOrders){
-            Integer counter;
+//        //c. Check the most common order country state
+//        Map.Entry<Order, Integer> orderStateMostCommom = orderMetrics.checkOrdethatHas(OrderMetric.HIGHEST, new OrderStateMetric());
+//        if(orderStateMostCommom != null)
+//            System.out.println("The most commom order state is: "+ orderStateMostCommom.getKey().getState() +" with "+ orderStateMostCommom.getValue() +  " occurencies");
 
-            orderValue=0;
-            //For each order item
-            for(OrderItem item : order.getItems()) {
-                Option optionProcessed = item.getOptionItemInfo();
-
-                orderValue += item.getPrice_cents()*item.getQuantity();
-
-                counter = 0;
-                for (Option optionAdded : optionsSold) {
-                    if (optionAdded.getId().equals(optionProcessed.getId())) {
-                        optionAdded.setAvailable_quantity(optionAdded.getAvailable_quantity() + optionProcessed.getAvailable_quantity());
-                        break;
-                    }
-                    counter++;
-                }
-                if(optionsSold.size() == counter)
-                    optionsSold.add(optionProcessed);
-            }
-            if(orderValue > mostValuableOrderValue) {
-                mostValuableOrder = order;
-                mostValuableOrderValue = orderValue;
-            }
-        }
-        optionsSold.sort(Comparator.comparing(Option::getAvailable_quantity).reversed());
-
-        if(!optionsSold.isEmpty()) {
-            Option bestSelling = optionsSold.get(0);
-            System.out.println("There were "+ processedOrders.size()
-                    +" orders processed.\nThe most selling product is "
-                    + bestSelling.getId()+" with "+ bestSelling.getAvailable_quantity() + " items.");
-        }
-        else System.out.println("No order was processed!");
-
-        if(mostValuableOrder != null)
-            System.out.println("The most valuable order is " + mostValuableOrder.getId() + " and cost: "+ mostValuableOrderValue);
     }
 }
 
