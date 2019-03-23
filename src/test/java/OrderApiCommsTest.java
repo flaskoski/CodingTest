@@ -5,10 +5,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import javax.validation.constraints.AssertTrue;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -24,9 +23,9 @@ public class OrderApiCommsTest implements  ApiCommsTest{
 
     @Test
     public void getAllItemsNonNull(){
-        List<Order> orderList = orderApiComms.getAllItems();
+        Map<String, Order> orderList = orderApiComms.getAllItems();
         assertTrue(orderList.size() > 50);
-        for(Order o : orderList){
+        for(Order o : orderList.values()){
             assertNotNull(o.getId());
         }
     }

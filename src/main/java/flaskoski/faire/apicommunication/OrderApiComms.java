@@ -1,6 +1,5 @@
 package flaskoski.faire.apicommunication;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
@@ -13,10 +12,7 @@ import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.security.InvalidParameterException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class OrderApiComms extends AbstractApiComms implements ApiReader{
     public OrderApiComms(String apiKeyHeader){
@@ -24,10 +20,10 @@ public class OrderApiComms extends AbstractApiComms implements ApiReader{
     }
 
     @Override
-    public List<Order> getAllItems() {
+    public Map<String, Order> getAllItems() {
         WebTarget target = ApiComms.getTarget();
-        List<Order> ordersOfPage;
-        List<Order> orders = new ArrayList<>();
+        Map<String, Order> ordersOfPage;
+        Map<String, Order> ordersMap = new HashMap<>();
         Integer page = 1;
         Integer limit=50;
         do
@@ -39,23 +35,24 @@ public class OrderApiComms extends AbstractApiComms implements ApiReader{
                     .get(String.class);
 
             ordersOfPage = getItensOfOnePage(content);
-            orders.addAll(ordersOfPage);
+            ordersMap.putAll(ordersOfPage);
 
         }while (ordersOfPage.size() == limit);
 
-        return orders;
+        return ordersMap;
 
     }
 
     @Override
-    public List getItensOfOnePage(String content) {
+    public Map getItensOfOnePage(String content) {
         JsonObject jsonObject = new JsonParser().parse(content).getAsJsonObject();
 
-        List<Product> ordersOfPage = gson.fromJson(jsonObject.get("orders"), new TypeToken<List<Order>>() {
-        }.getType());
+        List<Order> ordersOfPage = gson.fromJson(jsonObject.get("orders"), new TypeToken<List<Order>>() {}.getType());
+        Map<String, Order> ordersMap = new HashMap<>();
+        ordersOfPage.stream().forEach(o -> ordersMap.put(o.getId(), o));
         if (ordersOfPage == null)
-            return Collections.EMPTY_LIST;
-        return ordersOfPage;
+            return new HashMap();
+        return ordersMap;
     }
 
     public void process(Order order) {

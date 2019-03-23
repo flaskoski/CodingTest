@@ -1,8 +1,10 @@
 package flaskoski.faire.apicommunication;
 
-import java.util.List;
+import flaskoski.faire.model.Order;
+
+import java.util.Map;
 
 public interface ApiReader {
-    List getAllItems();
-    List getItensOfOnePage(String content);
+    Map<String, Order> getAllItems();
+    Map getItensOfOnePage(String content);
 }

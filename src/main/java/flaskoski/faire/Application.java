@@ -2,8 +2,11 @@ package flaskoski.faire;
 
 import flaskoski.faire.apicommunication.*;
 import flaskoski.faire.metrics.OrderCostMetric;
+import flaskoski.faire.metrics.OrderMetric;
 import flaskoski.faire.metrics.OrderMetrics;
 import flaskoski.faire.model.*;
+import javafx.util.Pair;
+
 import java.net.HttpURLConnection;
 import java.util.*;
 
@@ -39,7 +42,7 @@ public class Application {
 
         //------------------------------------------------------------------------------------------------
         //------3. Get all orders-------------------------------------------------------------------------
-        List<Order> orderList = new OrderApiComms(apiKeyHeader).getAllItems();
+        Map<String, Order> orderList = new OrderApiComms(apiKeyHeader).getAllItems();
         if(orderList.size() > 0)
             System.out.println("Orders obtained!");
         else throw new Exception("Orders could not be obtained!");
@@ -48,7 +51,7 @@ public class Application {
         //------------------------------------------------------------------------------------------------
         //------4. accepting the order if there is inventory to fulfill the order otherwise it marks the items that don’t have enough inventory as backordered
         //Update the inventory levels of product options as each order is moved to processing
-        for(Order order : orderList){
+        for(Order order : orderList.values()){
             Boolean processed = order.processOrder(optionApiComms, new OrderApiComms(apiKeyHeader));
             if(processed)
                 processedOrders.add(order);
@@ -67,27 +70,20 @@ public class Application {
         Integer mostValuableOrderValue =-1, orderValue=0;
 
         //For checking the state which is the most common in all orders
-        OrderMetrics orderMetrics = new OrderMetrics(products);
-       // orderMetrics.checkOrdethatHas(OrderMetrics.HIGHEST, new OrderCostMetric());
-        Map<String, Integer> orderStateCounter = new HashMap<>();
-        Arrays.asList(OrderState.values()).forEach(s -> orderStateCounter.put(s.name(), 0));
-        Integer mostCommonOrderStateOccurencies = 0;
-        String mostCommonOrderState = "";
-
+        OrderMetrics orderMetrics = new OrderMetrics(orderList);
+        Pair<Order, Integer> orderStateMostCommom = orderMetrics.checkOrdethatHas(OrderMetric.HIGHEST, new OrderCostMetric());
+        if(orderStateMostCommom != null)
+            System.out.println("The most commom order state is: "+ orderStateMostCommom.getKey().getState() +" with "+ orderStateMostCommom.getValue() +  " occurencies");
+        
         for(Order order : processedOrders){
             Integer counter;
-            orderStateCounter.put(order.getState(), orderStateCounter.get(order.getState())+1);
-            if(orderStateCounter.get(order.getState()) > mostCommonOrderStateOccurencies) {
-                mostCommonOrderStateOccurencies = orderStateCounter.get(order.getState());
-                mostCommonOrderState = order.getState();
-            }
 
             orderValue=0;
             //For each order item
             for(OrderItem item : order.getItems()) {
                 Option optionProcessed = item.getOptionItemInfo();
 
-                orderValue += item.getPrice_cents();
+                orderValue += item.getPrice_cents()*item.getQuantity();
 
                 counter = 0;
                 for (Option optionAdded : optionsSold) {
@@ -117,9 +113,6 @@ public class Application {
 
         if(mostValuableOrder != null)
             System.out.println("The most valuable order is " + mostValuableOrder.getId() + " and cost: "+ mostValuableOrderValue);
-
-        if(mostCommonOrderStateOccurencies > 0)
-            System.out.println("The most commom order state is: "+mostCommonOrderState+" with "+ mostCommonOrderStateOccurencies+  " occurencies");
     }
 }
 
