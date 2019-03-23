@@ -37,6 +37,7 @@ public class OptionApiCommsTest implements ApiCommsTest {
         options.add(new Option("3abc", "aaaa", true, 10));
 
         optionApiComms.setDb(options);
+
         //5 left for each of them
         assertTrue(optionApiComms.checkIfItemsAvailable(items));
 

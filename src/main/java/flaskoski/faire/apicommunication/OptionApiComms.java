@@ -36,7 +36,7 @@ public class OptionApiComms extends AbstractApiComms{
         String updateJson = "{\"available_units\":"+ quantity.toString() + "}";
 
         Response response = ApiComms.getTarget()
-                .path("/api/v1/products/options").path(ID).request(MediaType.APPLICATION_JSON)
+                .path("/products/options").path(ID).request(MediaType.APPLICATION_JSON)
                 .header(headerId, apiKeyHeader)
                 .property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true)
                 .method("PATCH", Entity.json(updateJson));
@@ -91,16 +91,18 @@ public class OptionApiComms extends AbstractApiComms{
         }
     }
 
+    //-----PATCH Update inventory
     public <InventoryItem> void updateMultiple(List inventoryItems) {
+
         String invetoryJson = "{\"inventories\":" + gson.toJson(inventoryItems,
                 new TypeToken<List<InventoryItem>>(){}.getType())+ "}";
 
-
         Response response = ApiComms.getTarget()
-                .path("/api/v1/products/options/inventory-levels").request(MediaType.APPLICATION_JSON)
+                .path("/products/options/inventory-levels").request(MediaType.APPLICATION_JSON)
                 .header(headerId, apiKeyHeader)
                 .property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true)
                 .method("PATCH", Entity.json(invetoryJson));
+        String options = response.readEntity(String.class);
     }
 
     public List<Option> recordInventory(List<Product> products) {

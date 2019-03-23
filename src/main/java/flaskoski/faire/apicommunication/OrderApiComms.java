@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import flaskoski.faire.model.Order;
+import flaskoski.faire.model.OrderState;
 import flaskoski.faire.model.Product;
 
 import javax.ws.rs.client.Entity;
@@ -31,7 +32,7 @@ public class OrderApiComms extends AbstractApiComms implements ApiReader{
         Integer limit=50;
         do
         {
-            String content = target.path("/api/v1/orders")
+            String content = target.path("/orders")
                     .queryParam("page", page++)
                     .queryParam("limit", limit).request()
                     .header(headerId, this.apiKeyHeader)
@@ -50,7 +51,6 @@ public class OrderApiComms extends AbstractApiComms implements ApiReader{
     public List getItensOfOnePage(String content) {
         JsonObject jsonObject = new JsonParser().parse(content).getAsJsonObject();
 
-        Gson gson = new Gson();
         List<Product> ordersOfPage = gson.fromJson(jsonObject.get("orders"), new TypeToken<List<Order>>() {
         }.getType());
         if (ordersOfPage == null)
@@ -61,11 +61,12 @@ public class OrderApiComms extends AbstractApiComms implements ApiReader{
     public void process(Order order) {
         if(order.getId() == null) throw new NullPointerException("There is no order to process");
 
+        order.setState(OrderState.PROCESSING.name());
+
         Invocation.Builder invocationBuilder = ApiComms.getTarget()
-                .path("/api/v1/orders/"+order.getId()+"/processing")
+                .path("/orders/"+order.getId()+"/processing")
                 .request(MediaType.APPLICATION_JSON_TYPE)
                 .header("X-FAIRE-ACCESS-TOKEN", apiKeyHeader);
-        Gson gson = new Gson();
         Response response = invocationBuilder.put(Entity.entity(gson.toJson(order.getID()), MediaType.APPLICATION_JSON_TYPE));
 //        String orderS = response.readEntity(String.class);
     }

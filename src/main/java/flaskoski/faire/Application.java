@@ -1,12 +1,13 @@
 package flaskoski.faire;
 
 import flaskoski.faire.apicommunication.*;
-import flaskoski.faire.model.Option;
-import flaskoski.faire.model.Order;
-import flaskoski.faire.model.Product;
+import flaskoski.faire.model.*;
+import org.glassfish.jersey.internal.util.collection.KeyComparator;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Application {
 
@@ -41,5 +42,39 @@ public class Application {
             Boolean processed = order.processOrder(optionApiComms, new OrderApiComms(apiKeyHeader));
             System.out.println(String.format("order %s processed? %s", order.getId(), processed.toString()));
         }
+
+        List<Order> processedOrders = orderList.stream().filter(o -> o.getState().equals(OrderState.PROCESSING.name())).collect(Collectors.toList());
+
+
+        List<Option> optionsSold = new ArrayList<>();
+        OrderItem aux;
+
+        for(Order order : processedOrders){
+            Integer counter;
+            //For each order item
+            for(OrderItem item : order.getItems()) {
+                Option optionProcessed = item.getOptionItemInfo();
+
+                counter = 0;
+                for (Option optionAdded : optionsSold) {
+                    if (optionAdded.getId().equals(optionProcessed.getId())) {
+                        optionAdded.setAvailable_quantity(optionAdded.getAvailable_quantity() + optionProcessed.getAvailable_quantity());
+                        break;
+                    }
+                    counter++;
+                }
+                if(optionsSold.size() == counter)
+                    optionsSold.add(optionProcessed);
+            }
+        }
+        optionsSold.sort(Comparator.comparing(Option::getAvailable_quantity).reversed());
+
+        if(!optionsSold.isEmpty()) {
+            Option bestSelling = optionsSold.get(0);
+            System.out.println("The most selling product is " + bestSelling.getId()+" with "+ bestSelling.getAvailable_quantity() + " items.");
+        }
+        else System.out.println("No order was processed!");
     }
+
 }
+

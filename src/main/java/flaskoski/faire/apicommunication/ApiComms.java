@@ -14,6 +14,6 @@ public interface ApiComms{
 
     static WebTarget getTarget(){
         Client client = ClientBuilder.newClient();
-        return client.target("https://www.faire-stage.com");
+        return client.target("https://www.faire-stage.com").path("/api/v1");
     }
 }

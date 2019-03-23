@@ -27,7 +27,7 @@ public class ProductApiComms extends AbstractApiComms {
         Integer limit=50;
         do
         {
-            String content = target.path("/api/v1/products")
+            String content = target.path("/products")
                     .queryParam("page", page++)
                     .queryParam("limit", limit).request()
                     .header(headerId, this.apiKeyHeader)
@@ -63,7 +63,7 @@ public class ProductApiComms extends AbstractApiComms {
         {
             target.queryParam("page", page++);
             //target.queryParam("limit", limit);
-            String content = target.path("/apicommunication/v1/products").request()
+            String content = target.path("/products").request()
                     .header(headerId, this.apiKeyHeader)
                     .get(String.class);
 

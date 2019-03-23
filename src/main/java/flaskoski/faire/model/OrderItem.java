@@ -135,4 +135,13 @@ public class OrderItem {
     public void setUpdated_at(String updated_at) {
         this.updated_at = updated_at;
     }
+
+    public Option getOptionItemInfo(){
+        Option opt = new Option();
+        opt.setAvailable_quantity(this.quantity);
+        opt.setSku(this.sku);
+        opt.setId(this.product_option_id);
+        opt.setProduct_id(this.product_id);
+        return opt;
+    }
 }

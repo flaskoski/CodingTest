@@ -9,7 +9,6 @@ import javax.ws.rs.client.WebTarget;
 public abstract class AbstractApiComms implements ApiComms {
     protected Gson gson = new Gson();
 
-    String headerId = "X-FAIRE-ACCESS-TOKEN";
     protected String apiKeyHeader;
 
     public AbstractApiComms(String apiKeyHeader) {
@@ -21,11 +20,6 @@ public abstract class AbstractApiComms implements ApiComms {
     }
     public void setApiKeyHeader(String key){
         this.apiKeyHeader = key;
-    }
-
-    static WebTarget getTarget(){
-        Client client = ClientBuilder.newClient();
-        return client.target("https://www.faire-stage.com");
     }
 
 }
