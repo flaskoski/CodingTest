@@ -1,4 +1,4 @@
-package flaskoski.faire.apicommunication;
+package flaskoski.faire.apicommunication.UpdateOptionStrategy;
 
 import flaskoski.faire.model.Option;
 

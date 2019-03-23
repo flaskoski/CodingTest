@@ -1,6 +1,7 @@
 package flaskoski.faire.apicommunication;
 
 import com.google.gson.reflect.TypeToken;
+import flaskoski.faire.apicommunication.UpdateOptionStrategy.IUpdateOption;
 import flaskoski.faire.model.InventoryItem;
 import flaskoski.faire.model.Option;
 import flaskoski.faire.model.OrderItem;
@@ -10,11 +11,7 @@ import org.glassfish.jersey.client.HttpUrlConnectorProvider;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class OptionApiComms extends AbstractApiComms{
 
@@ -27,6 +24,10 @@ public class OptionApiComms extends AbstractApiComms{
 
     public static List getDb() {
         return db;
+    }
+
+    public static void setDb(List<Option> _db) {
+        db = _db;
     }
 
     public int update(String ID, Integer quantity) {

@@ -26,6 +26,12 @@ public class OrderItem {
 
     public OrderItem(){}
 
+    public OrderItem(String id, String product_option_id, int quantity) {
+        this.id = id;
+        this.product_option_id = product_option_id;
+        this.quantity = quantity;
+    }
+
     public String getId() {
         return id;
     }

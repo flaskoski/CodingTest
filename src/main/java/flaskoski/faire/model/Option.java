@@ -18,6 +18,13 @@ public class Option {
 
     public Option(){}
 
+    public Option(String id, String product_id, boolean active, int available_quantity) {
+        this.id = id;
+        this.product_id = product_id;
+        this.active = active;
+        this.available_quantity = available_quantity;
+    }
+
     public String getId() {
         return id;
     }

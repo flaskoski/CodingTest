@@ -2,8 +2,8 @@ package flaskoski.faire.model;
 
 import flaskoski.faire.apicommunication.OptionApiComms;
 import flaskoski.faire.apicommunication.OrderApiComms;
-import flaskoski.faire.apicommunication.UpdateOptionDontProcess;
-import flaskoski.faire.apicommunication.UpdateOptionProcess;
+import flaskoski.faire.apicommunication.UpdateOptionStrategy.UpdateOptionDontProcess;
+import flaskoski.faire.apicommunication.UpdateOptionStrategy.UpdateOptionProcess;
 
 import javax.persistence.*;
 import java.util.List;
