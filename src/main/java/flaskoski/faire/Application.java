@@ -64,30 +64,37 @@ public class Application {
         //------------------------------------------------------------------------------------------------
         //-----5. METRICS------------------------------------------------------------------------------------
 
+        System.out.println("-----The metrics bellow consider all orders retrieved from the API------");
         //a. Check the best selling product
         OrderMetrics orderMetrics = new OrderMetrics(orderList);
 
         Map.Entry<Option, Integer> bestSellingOption = orderMetrics.checkOptionThatHas(new OrderBestSellingProductMetric());
         if(bestSellingOption != null)
             System.out.println("There were "+ processedOrders.size()
-                    +" orders processed.\nThe most selling product is "
-                    + bestSellingOption.getKey().getId()+" with "+ bestSellingOption.getValue() + " items.");
+                    +" orders processed.\nThe best selling product option is \""
+                    + bestSellingOption.getKey().getId()+"\" with "+ bestSellingOption.getValue() + " items.");
 
 
         //b. Check the most valuable order
         Map.Entry<Order, Integer> mostValuableOrder = orderMetrics.checkOrdethatHas(OrderMetric.HIGHEST, new OrderCostMetric());
         if(mostValuableOrder != null)
-            System.out.println("The most common state is: "+ mostValuableOrder.getKey().getId() +" with "+ mostValuableOrder.getValue()/100.0 +  " dollars.");
+            System.out.println("The most valuable order is \""+ mostValuableOrder.getKey().getId() +"\" with "+ mostValuableOrder.getValue()/100.0 +  " dollars.");
 
         //c. Check the most common order state
-        Map.Entry<Order, Integer> orderStateMostCommom = orderMetrics.checkOrdethatHas(OrderMetric.HIGHEST, new OrderStateMetric());
-        if(orderStateMostCommom != null)
-            System.out.println("The most common order state is: "+ orderStateMostCommom.getKey().getState() +" with "+ orderStateMostCommom.getValue() +  " occurrences");
+        Map.Entry<Order, Integer> orderStateMostCommon = orderMetrics.checkOrdethatHas(OrderMetric.HIGHEST, new OrderStateMetric());
+        if(orderStateMostCommon != null)
+            System.out.println("The most common order state is \""+ orderStateMostCommon.getKey().getState() +"\" with "+ orderStateMostCommon.getValue() +  " occurrences.");
 
         //d. Check the most common order country state
-        Map.Entry<Order, Integer> orderCountryStateMostCommom = orderMetrics.checkOrdethatHas(OrderMetric.HIGHEST, new OrderCountryStateMetric());
-        if(orderCountryStateMostCommom != null)
-            System.out.println("The most common order Country State is: "+ orderCountryStateMostCommom.getKey().getAddress().getState() +" with "+ orderCountryStateMostCommom.getValue() +  " occurrences");
+        Map.Entry<Order, Integer> orderCountryStateMostCommon = orderMetrics.checkOrdethatHas(OrderMetric.HIGHEST, new OrderCountryStateMetric());
+        if(orderCountryStateMostCommon != null)
+            System.out.println("The most common order Country State is \""+ orderCountryStateMostCommon.getKey().getAddress().getState() +"\" with "+ orderCountryStateMostCommon.getValue() +  " occurrences.");
+
+        //e. Check order average cost
+        Map.Entry<Order, Integer> orderAverageCost = orderMetrics.checkOrdethatHas(OrderMetric.HIGHEST, new OrderAverageCostMetric());
+        if(orderAverageCost != null)
+            System.out.println("The average value from all orders is "+ orderAverageCost.getValue()/100.0 +" dollars.");
+
 
     }
 }
