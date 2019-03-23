@@ -11,16 +11,21 @@ public class OrderStateMetric implements OrderMetric {
     public Map.Entry<Order, Integer> process(int resultOrder, Map<String, Order> orderMap) {
         Map<String, Integer> orderStateCounter = new HashMap<>();
         Arrays.asList(OrderState.values()).forEach(s -> orderStateCounter.put(s.name(), 0));
-        int mostCommonOrderStateOccurencies = 0;
-        Order mostCommonStateOrder = null;
+        int answerCommonOrderStateOccurencies = (resultOrder == OrderMetric.HIGHEST? 0 : Integer.MAX_VALUE);;
+        Order answerCommonStateOrder = null;
         for(Order order : orderMap.values()){
             orderStateCounter.put(order.getState(), (orderStateCounter.get(order.getState())+1));
-            if(orderStateCounter.get(order.getState()) > mostCommonOrderStateOccurencies) {
-                mostCommonOrderStateOccurencies = orderStateCounter.get(order.getState());
-                mostCommonStateOrder = order;
+            if(resultOrder == OrderMetric.HIGHEST) {
+                if (orderStateCounter.get(order.getState()) > answerCommonOrderStateOccurencies) {
+                    answerCommonOrderStateOccurencies = orderStateCounter.get(order.getState());
+                    answerCommonStateOrder = order;
+                }
             }
-
+            else if (orderStateCounter.get(order.getState()) < answerCommonOrderStateOccurencies) {
+                answerCommonOrderStateOccurencies = orderStateCounter.get(order.getState());
+                answerCommonStateOrder = order;
+            }
         }
-        return new HashMap.SimpleEntry<>(mostCommonStateOrder, mostCommonOrderStateOccurencies);
+        return new HashMap.SimpleEntry<>(answerCommonStateOrder, answerCommonOrderStateOccurencies);
     }
 }

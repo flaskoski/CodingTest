@@ -11,7 +11,7 @@ public class OrderCostMetric implements OrderMetric {
     public Map.Entry<Order, Integer> process(int resultOrder, Map<String, Order> orderMap) {
         //For checking the most valuable order
         Order answerValuableOrder = null;
-        Integer answerOrderValue =(resultOrder == OrderMetric.HIGHEST? 0 : Integer.MAX_VALUE);
+        Integer answerOrderValue =(resultOrder == OrderMetric.HIGHEST? -1 : Integer.MAX_VALUE);
         Integer orderValue;
 
         for(Order order : orderMap.values()){

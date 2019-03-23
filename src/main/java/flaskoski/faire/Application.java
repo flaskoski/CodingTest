@@ -82,12 +82,12 @@ public class Application {
         //c. Check the most common order state
         Map.Entry<Order, Integer> orderStateMostCommom = orderMetrics.checkOrdethatHas(OrderMetric.HIGHEST, new OrderStateMetric());
         if(orderStateMostCommom != null)
-            System.out.println("The most commom order state is: "+ orderStateMostCommom.getKey().getState() +" with "+ orderStateMostCommom.getValue() +  " occurencies");
+            System.out.println("The most common order state is: "+ orderStateMostCommom.getKey().getState() +" with "+ orderStateMostCommom.getValue() +  " occurrences");
 
-//        //c. Check the most common order country state
-//        Map.Entry<Order, Integer> orderStateMostCommom = orderMetrics.checkOrdethatHas(OrderMetric.HIGHEST, new OrderStateMetric());
-//        if(orderStateMostCommom != null)
-//            System.out.println("The most commom order state is: "+ orderStateMostCommom.getKey().getState() +" with "+ orderStateMostCommom.getValue() +  " occurencies");
+        //d. Check the most common order country state
+        Map.Entry<Order, Integer> orderCountryStateMostCommom = orderMetrics.checkOrdethatHas(OrderMetric.HIGHEST, new OrderCountryStateMetric());
+        if(orderCountryStateMostCommom != null)
+            System.out.println("The most common order Country State is: "+ orderCountryStateMostCommom.getKey().getAddress().getState() +" with "+ orderCountryStateMostCommom.getValue() +  " occurrences");
 
     }
 }
