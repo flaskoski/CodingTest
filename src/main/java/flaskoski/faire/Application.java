@@ -23,7 +23,6 @@ public class Application {
         catch (Exception e){
             e.printStackTrace();
         }
-
         //------1. Consumes all products for a given brand*2
         ApiComms productsReader = new ProductApiReader(apiKeyHeader);
         List<Product> products = ((ProductApiReader) productsReader).getItemsByBrand("b_d2481b88");
