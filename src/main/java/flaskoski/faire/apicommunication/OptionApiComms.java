@@ -105,7 +105,7 @@ public class OptionApiComms extends AbstractApiComms{
         String options = response.readEntity(String.class);
     }
 
-    public List<Option> recordInventory(List<Product> products) {
+    public List<Option> recordInventory(Collection<Product> products) {
         List<Option> optionItems = new ArrayList<>();
         List<InventoryItem> inventoryItems = new ArrayList<>();
         for(Product product : products){

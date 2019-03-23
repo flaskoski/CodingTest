@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import javax.validation.constraints.AssertTrue;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -22,17 +23,17 @@ public class ProductApiCommsTest implements ApiCommsTest {
 
     @Test
     public void getItemsFromSpecificBrand(){
-        List<Product> productList= productApiComms.getItemsByBrand("b_d2481b88");
-        for(Product p : productList){
+        Map<String, Product> productList= productApiComms.getItemsByBrand("b_d2481b88");
+        for(Product p : productList.values()){
             Assert.assertEquals("b_d2481b88", p.getBrand_id());
         }
     }
 
     @Test
     public void getAllItemsNonNull(){
-        List<Product> productList= productApiComms.getItemsByBrand("b_d2481b88");
+        Map<String, Product> productList= productApiComms.getItemsByBrand("b_d2481b88");
         assertTrue(productList.size() > 10);
-        for(Product p : productList){
+        for(Product p : productList.values()){
             Assert.assertNotNull(p.getId());
         }
     }

@@ -7,9 +7,7 @@ import com.google.gson.reflect.TypeToken;
 import flaskoski.faire.model.Product;
 
 import javax.ws.rs.client.WebTarget;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class ProductApiComms extends AbstractApiComms {
@@ -18,11 +16,11 @@ public class ProductApiComms extends AbstractApiComms {
         super(apiKeyHeader);
     }
 
-    public List<Product> getItemsByBrand(String brandId) {
+    public Map<String, Product> getItemsByBrand(String brandId) {
 
         WebTarget target = ApiComms.getTarget();
         List<Product> productsOfPage = new ArrayList<>();
-        List<Product> products = new ArrayList<>();
+        Map<String, Product> products = new HashMap<>();
         Integer page = 1;
         Integer limit=50;
         do
@@ -34,7 +32,7 @@ public class ProductApiComms extends AbstractApiComms {
                     .get(String.class);
 
             productsOfPage = getProducts(content);
-            products.addAll(productsOfPage.stream().filter(p -> brandId.equals(p.getBrand_id())).collect(Collectors.toList()));
+            productsOfPage.stream().filter(p -> brandId.equals(p.getBrand_id())).forEach(p -> products.put(p.getId(), p));
 
         }while (productsOfPage.size() == limit);
 
