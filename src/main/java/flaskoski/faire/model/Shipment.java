@@ -7,12 +7,12 @@ import javax.persistence.Id;
 public class Shipment {
     
     @Id
-    String id;
-    String order_id;
-    Integer maker_cost_cents;
-    String carrier;
-    String tracking_code;
-    String created_at;
+    private String id;
+    private String order_id;
+    private Integer maker_cost_cents;
+    private String carrier;
+    private String tracking_code;
+    private String created_at;
 
     public Shipment(){}
 

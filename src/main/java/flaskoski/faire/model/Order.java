@@ -13,12 +13,12 @@ public class Order {
 
     public Order(){}
     @Id
-    String id;
+    private String id;
     @Column(name = "order_id2")
-    String ID;
+    private String ID;
 
-    String state;
-    String ship_after;
+    private String state;
+    private String ship_after;
 
     @OneToMany(cascade = CascadeType.PERSIST)
     List<OrderItem> items;

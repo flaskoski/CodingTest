@@ -6,16 +6,16 @@ import javax.persistence.Embeddable;
 public class Address {
     public Address(){}
 
-    String name;
-    String address1;
-    String address2;
-    String postal_code;
-    String city;
-    String state;
-    String state_code;
-    String phone_number;
-    String country;
-    String country_code;
+    private String name;
+    private String address1;
+    private String address2;
+    private String postal_code;
+    private String city;
+    private String state;
+    private String state_code;
+    private String phone_number;
+    private String country;
+    private String country_code;
 
     public String getName() {
         return name;

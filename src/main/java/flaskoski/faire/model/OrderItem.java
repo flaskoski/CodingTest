@@ -11,18 +11,18 @@ public class OrderItem {
     @Column
     String id;
 
-    String order_id;
-    String product_id;
-    String product_option_id;
-    Integer quantity;
-    String sku;
-    Integer price_cents;
-    String product_name;
-    String product_option_name;
-    String includes_tester;
-    String tester_price_cents;
-    String created_at;
-    String updated_at;
+    private String order_id;
+    private String product_id;
+    private String product_option_id;
+    private Integer quantity;
+    private String sku;
+    private Integer price_cents;
+    private String product_name;
+    private String product_option_name;
+    private String includes_tester;
+    private String tester_price_cents;
+    private String created_at;
+    private String updated_at;
 
     public OrderItem(){}
 

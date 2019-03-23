@@ -7,22 +7,22 @@ import java.util.List;
 public class Product {
 
     @Id
-    String id;
-    String brand_id;
-    String short_description;
+    private String id;
+    private String brand_id;
+    private String short_description;
     @Lob
-    String description;
-    Integer wholesale_price_cents;
-    Integer retail_price_cents;
-    Boolean active;
-    String name;
-    Integer unit_multiplier;
+    private String description;
+    private Integer wholesale_price_cents;
+    private Integer retail_price_cents;
+    private Boolean active;
+    private String name;
+    private Integer unit_multiplier;
 
     @OneToMany(cascade = CascadeType.PERSIST)
-    List<Option> options;
+    private List<Option> options;
 
-    String created_at;
-    String updated_at;
+    private String created_at;
+    private String updated_at;
 
     public String getId() {
         return id;

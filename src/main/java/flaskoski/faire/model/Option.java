@@ -7,14 +7,15 @@ import javax.persistence.Id;
 public class Option {
 
     @Id
+    private
     String id;
-    String product_id;
-    Boolean active;
-    String name;
-    String sku;
-    Integer available_quantity;
-    String backordered_until;
-    String created_at;
+    private String product_id;
+    private Boolean active;
+    private String name;
+    private String sku;
+    private Integer available_quantity;
+    private String backordered_until;
+    private String created_at;
 
     public Option(){}
 

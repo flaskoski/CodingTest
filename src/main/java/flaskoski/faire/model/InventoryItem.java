@@ -10,10 +10,10 @@ public class InventoryItem {
         this.backordered_until = backordered_until;
     }
 
-    String sku;
-    Integer current_quantity;
-    Boolean discontinued;
-    String backordered_until;
+    private String sku;
+    private Integer current_quantity;
+    private Boolean discontinued;
+    private String backordered_until;
 
 
     public String getSku() {
