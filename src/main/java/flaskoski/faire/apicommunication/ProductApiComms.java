@@ -12,9 +12,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ProductApiReader extends AbstractApiComms {
+public class ProductApiComms extends AbstractApiComms {
 
-    public ProductApiReader(String apiKeyHeader){
+    public ProductApiComms(String apiKeyHeader){
         super(apiKeyHeader);
     }
 

@@ -1,13 +1,10 @@
 package flaskoski.faire;
 
 import flaskoski.faire.apicommunication.*;
-import flaskoski.faire.model.InventoryItem;
 import flaskoski.faire.model.Option;
 import flaskoski.faire.model.Order;
 import flaskoski.faire.model.Product;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,8 +21,8 @@ public class Application {
             e.printStackTrace();
         }
         //------1. Consumes all products for a given brand*2
-        ApiComms productsReader = new ProductApiReader(apiKeyHeader);
-        List<Product> products = ((ProductApiReader) productsReader).getItemsByBrand("b_d2481b88");
+        ApiComms productsReader = new ProductApiComms(apiKeyHeader);
+        List<Product> products = ((ProductApiComms) productsReader).getItemsByBrand("b_d2481b88");
         if(products != null && products.size()>0)
             System.out.println("Products from brand b_d2481b88 obtained.");
 

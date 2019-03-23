@@ -63,7 +63,7 @@ public class OptionApiComms extends AbstractApiComms{
         return processOrNot;
     }
 
-    public void processOptionsDeactivatingOptions(List<OrderItem> items) {
+    public void processOptions(List<OrderItem> items, IUpdateOption updateStrategy) {
         items.sort(Comparator.comparing(OrderItem::getProduct_option_id));
         List<InventoryItem> optionsToUpdate = new ArrayList<>();
         Iterator<OrderItem> itItem = items.iterator();
@@ -71,29 +71,7 @@ public class OptionApiComms extends AbstractApiComms{
 
         for(Option opt : db){
             if(opt.getId() != null && opt.getId().equals(item.getProduct_option_id())){
-                opt.setActive(false);
-                optionsToUpdate.add(new InventoryItem(opt.getSku(),
-                        opt.getAvailable_quantity(),
-                        opt.getActive(),
-                        opt.getBackordered_until()));
-
-                if(!itItem.hasNext()) break;
-                item = itItem.next();
-            }
-        }
-        updateMultiple(optionsToUpdate);
-    }
-
-    public void processOptionsUpdatingInventory(List<OrderItem> items) {
-        items.sort(Comparator.comparing(OrderItem::getProduct_option_id));
-
-        List<InventoryItem> optionsToUpdate = new ArrayList<>();
-        Iterator<OrderItem> itItem = items.iterator();
-        OrderItem item = itItem.next();
-
-        for(Option opt : db){
-            if(opt.getId() != null && opt.getId().equals(item.getProduct_option_id())){
-                opt.setAvailable_quantity(opt.getAvailable_quantity() - item.getQuantity());
+                updateStrategy.setOption(opt, item.getQuantity());
                 optionsToUpdate.add(new InventoryItem(opt.getSku(),
                         opt.getAvailable_quantity(),
                         opt.getActive(),

@@ -2,6 +2,8 @@ package flaskoski.faire.model;
 
 import flaskoski.faire.apicommunication.OptionApiComms;
 import flaskoski.faire.apicommunication.OrderApiComms;
+import flaskoski.faire.apicommunication.UpdateOptionDontProcess;
+import flaskoski.faire.apicommunication.UpdateOptionProcess;
 
 import javax.persistence.*;
 import java.util.List;
@@ -104,11 +106,11 @@ public class Order {
     public boolean processOrder(OptionApiComms dbOptions, OrderApiComms dbOrders){
         if(dbOptions.checkIfItemsAvailable(this.getItems()))
         {
-            dbOptions.processOptionsUpdatingInventory(this.getItems());
+            dbOptions.processOptions(this.getItems(), new UpdateOptionProcess());
             dbOrders.process(this);
             return true;
         }
-        dbOptions.processOptionsDeactivatingOptions(this.getItems());
+        dbOptions.processOptions(this.getItems(), new UpdateOptionDontProcess());
         return false;
     }
 
