@@ -19,7 +19,7 @@ public class OrderCountryStateMetric implements OrderMetric {
             if(! orderCountryStateCounter.containsKey(order.getAddress().getState()))
                 orderCountryStateCounter.put(order.getAddress().getState(), 1);
             else
-                orderCountryStateCounter.put(order.getState(), (orderCountryStateCounter.get(order.getAddress().getState())+1));
+                orderCountryStateCounter.put(order.getAddress().getState(), (orderCountryStateCounter.get(order.getAddress().getState())+1));
             if(resultOrder == OrderMetric.HIGHEST) {
                 if (orderCountryStateCounter.get(order.getAddress().getState()) > answerCommonOrderCountryStateOccurrences) {
                     answerCommonOrderCountryStateOccurrences = orderCountryStateCounter.get(order.getAddress().getState());
