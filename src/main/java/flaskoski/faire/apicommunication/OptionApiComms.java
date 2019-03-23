@@ -92,20 +92,21 @@ public class OptionApiComms extends AbstractApiComms{
     }
 
     //-----PATCH Update inventory
-    public <InventoryItem> void updateMultiple(List inventoryItems) {
+    public <InventoryItem> Response updateMultiple(List inventoryItems) {
 
-        String invetoryJson = "{\"inventories\":" + gson.toJson(inventoryItems,
+        String inventoryJson = "{\"inventories\": " + gson.toJson(inventoryItems,
                 new TypeToken<List<InventoryItem>>(){}.getType())+ "}";
 
         Response response = ApiComms.getTarget()
                 .path("/products/options/inventory-levels").request(MediaType.APPLICATION_JSON)
                 .header(headerId, apiKeyHeader)
                 .property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true)
-                .method("PATCH", Entity.json(invetoryJson));
+                .method("PATCH", Entity.json(inventoryJson));
         String options = response.readEntity(String.class);
+        return response;
     }
 
-    public List<Option> recordInventory(Collection<Product> products) {
+    public Response recordInventory(Collection<Product> products) {
         List<Option> optionItems = new ArrayList<>();
         List<InventoryItem> inventoryItems = new ArrayList<>();
         for(Product product : products){
@@ -122,9 +123,6 @@ public class OptionApiComms extends AbstractApiComms{
         db.addAll(optionItems);
         db.sort(Comparator.comparing(opt -> opt.getId(), Comparator.nullsFirst(Comparator.naturalOrder())));
 
-        //---This is yielding status 404 for some reason
-        updateMultiple(inventoryItems);
-
-        return optionItems;
+        return updateMultiple(inventoryItems);
     }
 }

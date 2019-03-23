@@ -106,12 +106,17 @@ public class Order {
     public boolean processOrder(OptionApiComms dbOptions, OrderApiComms dbOrders){
         if(dbOptions.checkIfItemsAvailable(this.getItems()))
         {
-            dbOptions.processOptions(this.getItems(), new UpdateOptionProcess());
-            dbOrders.process(this);
+//            dbOptions.processOptions(this.getItems(), new UpdateOptionProcess());
+//            dbOrders.process(this);
             return true;
         }
-        dbOptions.processOptions(this.getItems(), new UpdateOptionDontProcess());
+//        dbOptions.processOptions(this.getItems(), new UpdateOptionDontProcess());
         return false;
+    }
+
+    @Override
+    public String toString(){
+        return "Order Id: "+ this.getId();
     }
 
 
