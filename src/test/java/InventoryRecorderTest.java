@@ -18,7 +18,7 @@ public class InventoryRecorderTest {
 
     @Test
     public void getAllProductsFromGivenBrand(){
-        String content = target.path("/api/v1/products").request()
+        String content = target.path("/apicommunication/v1/products").request()
                 .header("X-FAIRE-ACCESS-TOKEN", "HQLA9307HSLQYTC24PO2G0LITTIOHS2MJC8120PVZ83HJK4KACRZJL91QB7K01NWS2TUCFXGCHQ8HVED8WNZG0KS6XRNBFRNGY71")
                 .get(String.class);
         Assert.assertTrue(content.toString().contains("{\"products\""));

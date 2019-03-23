@@ -2,8 +2,6 @@ package flaskoski.faire.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import java.time.LocalDateTime;
 
 @Entity(name = "option_table")
 public class Option {
@@ -15,7 +13,7 @@ public class Option {
     String name;
     String sku;
     Integer available_quantity;
-    LocalDateTime backordered_until;
+    String backordered_until;
     String created_at;
 
     public Option(){}
@@ -68,11 +66,11 @@ public class Option {
         this.available_quantity = available_quantity;
     }
 
-    public LocalDateTime getBackordered_until() {
+    public String getBackordered_until() {
         return backordered_until;
     }
 
-    public void setBackordered_until(LocalDateTime backordered_until) {
+    public void setBackordered_until(String backordered_until) {
         this.backordered_until = backordered_until;
     }
 

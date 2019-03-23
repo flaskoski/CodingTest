@@ -1,5 +1,8 @@
 package flaskoski.faire.model;
 
+import flaskoski.faire.apicommunication.OptionApiComms;
+import flaskoski.faire.apicommunication.OrderApiComms;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -97,4 +100,17 @@ public class Order {
     public void setUpdated_at(String updated_at) {
         this.updated_at = updated_at;
     }
+
+    public boolean processOrder(OptionApiComms dbOptions, OrderApiComms dbOrders){
+        if(dbOptions.checkIfItemsAvailable(this.getItems()))
+        {
+            dbOptions.processOptionsUpdatingInventory(this.getItems());
+            dbOrders.process(this);
+            return true;
+        }
+        dbOptions.processOptionsDeactivatingOptions(this.getItems());
+        return false;
+    }
+
+
 }

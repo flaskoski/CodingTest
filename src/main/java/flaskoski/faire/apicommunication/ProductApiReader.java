@@ -1,4 +1,4 @@
-package flaskoski.faire.api;
+package flaskoski.faire.apicommunication;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ProductApiReader extends AbstractApiReader {
+public class ProductApiReader extends AbstractApiComms {
 
     public ProductApiReader(String apiKeyHeader){
         super(apiKeyHeader);
@@ -20,17 +20,17 @@ public class ProductApiReader extends AbstractApiReader {
 
     public List<Product> getItemsByBrand(String brandId) {
 
-        WebTarget target = ApiReader.getTarget();
+        WebTarget target = ApiComms.getTarget();
         List<Product> productsOfPage = new ArrayList<>();
         List<Product> products = new ArrayList<>();
         Integer page = 1;
         Integer limit=50;
         do
         {
-            target.queryParam("page", page++);
-            //target.queryParam("limit", limit);
-            String content = target.path("/api/v1/products").request()
-                    .header(headerId, apiKeyHeader)
+            String content = target.path("/api/v1/products")
+                    .queryParam("page", page++)
+                    .queryParam("limit", limit).request()
+                    .header(headerId, this.apiKeyHeader)
                     .get(String.class);
 
             productsOfPage = getProducts(content);
@@ -54,7 +54,7 @@ public class ProductApiReader extends AbstractApiReader {
 
     public List<Product> getAllItems() {
 
-        WebTarget target = ApiReader.getTarget();
+        WebTarget target = ApiComms.getTarget();
         List<Product> productsOfPage = new ArrayList<>();
         List<Product> products = new ArrayList<>();
         Integer page = 1;
@@ -63,7 +63,7 @@ public class ProductApiReader extends AbstractApiReader {
         {
             target.queryParam("page", page++);
             //target.queryParam("limit", limit);
-            String content = target.path("/api/v1/products").request()
+            String content = target.path("/apicommunication/v1/products").request()
                     .header(headerId, this.apiKeyHeader)
                     .get(String.class);
 

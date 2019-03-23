@@ -1,18 +1,18 @@
-package flaskoski.faire.api;
+package flaskoski.faire.apicommunication;
 
-import flaskoski.faire.model.Product;
+import com.google.gson.Gson;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
-import java.util.List;
 
-public abstract class AbstractApiReader implements ApiReader{
+public abstract class AbstractApiComms implements ApiComms {
+    protected Gson gson = new Gson();
 
     String headerId = "X-FAIRE-ACCESS-TOKEN";
     protected String apiKeyHeader;
 
-    public AbstractApiReader(String apiKeyHeader) {
+    public AbstractApiComms(String apiKeyHeader) {
         this.apiKeyHeader = apiKeyHeader;
     }
 
@@ -27,4 +27,5 @@ public abstract class AbstractApiReader implements ApiReader{
         Client client = ClientBuilder.newClient();
         return client.target("https://www.faire-stage.com");
     }
+
 }
