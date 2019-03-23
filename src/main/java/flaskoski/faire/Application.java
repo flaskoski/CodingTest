@@ -4,8 +4,8 @@ import flaskoski.faire.apicommunication.*;
 import flaskoski.faire.metrics.OrderCostMetric;
 import flaskoski.faire.metrics.OrderMetric;
 import flaskoski.faire.metrics.OrderMetrics;
+import flaskoski.faire.metrics.OrderStateMetric;
 import flaskoski.faire.model.*;
-import javafx.util.Pair;
 
 import java.net.HttpURLConnection;
 import java.util.*;
@@ -71,10 +71,10 @@ public class Application {
 
         //For checking the state which is the most common in all orders
         OrderMetrics orderMetrics = new OrderMetrics(orderList);
-        Pair<Order, Integer> orderStateMostCommom = orderMetrics.checkOrdethatHas(OrderMetric.HIGHEST, new OrderCostMetric());
+        Map.Entry<Order, Integer> orderStateMostCommom = orderMetrics.checkOrdethatHas(OrderMetric.HIGHEST, new OrderStateMetric());
         if(orderStateMostCommom != null)
             System.out.println("The most commom order state is: "+ orderStateMostCommom.getKey().getState() +" with "+ orderStateMostCommom.getValue() +  " occurencies");
-        
+
         for(Order order : processedOrders){
             Integer counter;
 

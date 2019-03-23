@@ -104,13 +104,14 @@ public class Order {
     }
 
     public boolean processOrder(OptionApiComms dbOptions, OrderApiComms dbOrders){
-        if(dbOptions.checkIfItemsAvailable(this.getItems()))
-        {
-//            dbOptions.processOptions(this.getItems(), new UpdateOptionProcess());
-//            dbOrders.process(this);
-            return true;
-        }
-//        dbOptions.processOptions(this.getItems(), new UpdateOptionDontProcess());
+        if(state.equals(OrderState.NEW))
+            if(dbOptions.checkIfItemsAvailable(this.getItems()))
+            {
+                dbOptions.processOptions(this.getItems(), new UpdateOptionProcess());
+                dbOrders.process(this);
+                return true;
+            }
+        dbOptions.processOptions(this.getItems(), new UpdateOptionDontProcess());
         return false;
     }
 
