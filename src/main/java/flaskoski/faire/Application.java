@@ -91,11 +91,9 @@ public class Application {
             System.out.println("The most common order Country State is \""+ orderCountryStateMostCommon.getKey().getAddress().getState() +"\" with "+ orderCountryStateMostCommon.getValue() +  " occurrences.");
 
         //e. Check order average cost
-        Map.Entry<Order, Integer> orderAverageCost = orderMetrics.checkOrdethatHas(OrderMetric.HIGHEST, new OrderAverageCostMetric());
+        Integer orderAverageCost = orderMetrics.checkThe(new OrderAverageCostMetric());
         if(orderAverageCost != null)
-            System.out.println("The average value from all orders is "+ orderAverageCost.getValue()/100.0 +" dollars.");
-
-
+            System.out.println("The average value from all orders is "+ orderAverageCost/100.0 +" dollars.");
     }
 }
 

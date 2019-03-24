@@ -19,4 +19,8 @@ public class OrderMetrics {
     public Map.Entry<Option, Integer> checkOptionThatHas(OrderOptionMetric orderOptionMetric) {
         return orderOptionMetric.process(orderMap);
     }
+
+    public Integer checkThe(OrderAverageCostMetric orderAverageCostMetric) {
+        return orderAverageCostMetric.process(orderMap);
+    }
 }
