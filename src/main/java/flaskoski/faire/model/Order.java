@@ -115,7 +115,10 @@ public class Order {
                 dbOrders.process(this);
                 return Order.PROCESSED;
             }
-            else return Order.ITEM_NOT_AVAILABLE;
+            else{
+                dbOptions.processOptions(this.getItems(), new UpdateOptionDontProcess());
+                return Order.ITEM_NOT_AVAILABLE;
+            }
         dbOptions.processOptions(this.getItems(), new UpdateOptionDontProcess());
         return Order.INVALID_ORDER_STATE;
     }

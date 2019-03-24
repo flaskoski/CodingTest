@@ -32,7 +32,6 @@ public class OptionApiCommsTest implements ApiCommsTest {
         List<OrderItem> items = new ArrayList<>();
         items.add(new OrderItem("oi_111", "po_1abc", 5));
         items.add(new OrderItem("oi_111", "po_2abc", 5));
-        items.add(new OrderItem("oi_111", "po_3abc", 5));
 
         options.add(new Option("3abc", "aaaa", true, 10));
 
@@ -41,8 +40,8 @@ public class OptionApiCommsTest implements ApiCommsTest {
         //5 left for each of them
         assertTrue(optionApiComms.checkIfItemsAvailable(items));
 
-        //sum equal 15 > 10
-        items.add(new OrderItem("oi_111", "po_3abc", 10));
+        //15 > 10
+        items.add(new OrderItem("oi_111", "po_3abc", 15));
 
         assertFalse(optionApiComms.checkIfItemsAvailable(items));
     }

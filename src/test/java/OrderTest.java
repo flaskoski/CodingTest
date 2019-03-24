@@ -4,6 +4,7 @@ import flaskoski.faire.apicommunication.UpdateOptionStrategy.UpdateOptionDontPro
 import flaskoski.faire.apicommunication.UpdateOptionStrategy.UpdateOptionProcess;
 import flaskoski.faire.model.Order;
 import flaskoski.faire.model.OrderItem;
+import flaskoski.faire.model.OrderState;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.Before;
@@ -32,6 +33,7 @@ public class OrderTest {
     @Test
     public void ifAvailableThenProcess(){
         OptionApiComms optionApiMock = mock(OptionApiComms.class);
+        order.setState(OrderState.NEW.name());
         when(optionApiMock.checkIfItemsAvailable(order.getItems())).thenReturn(true);
 
         order.processOrder(optionApiMock, new OrderApiComms(""));
@@ -41,6 +43,7 @@ public class OrderTest {
     @Test
     public void ifNotAvailableThenDontProcess(){
         OptionApiComms optionApiMock = mock(OptionApiComms.class);
+        order.setState(OrderState.NEW.name());
         when(optionApiMock.checkIfItemsAvailable(order.getItems())).thenReturn(false);
 
         order.processOrder(optionApiMock, new OrderApiComms(""));
